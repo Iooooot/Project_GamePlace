@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>收藏排行榜</title>
+        <link rel="stylesheet" type="text/css" href="css/common.css">
+        <link rel="stylesheet" type="text/css" href="css/ranking-list.css">
+        <link rel="shortcut icon" href="images/icon.png" type="image/x-icon" />
+        <script src="js/jquery-3.3.1.js"></script>
+        <script src="js/getParameter.js"></script>
+        <script>
+            $(function () {
+                //获取搜索信息
+                $("#search-btn-rank").click(function () {
+                    let gname = $("#gname").val();
+                    let startPrice;
+                    let endPrice;
+                    startPrice = $("#startPrice").val();
+                    endPrice = $("#endPrice").val();
+                    location.href="http://localhost:8080/favoriterank.html?gname="+gname+"&startPrice="+startPrice+"&endPrice="+endPrice;
+                })
+            })
+
+            $(function () {
+                //获取参数
+                let gname = getParameter("gname");
+                if(gname){
+                    gname=window.decodeURIComponent(gname);
+                }
+                let startPrice = getParameter("startPrice");
+                let endPrice = getParameter("endPrice");
+                showRank(gname,null,startPrice,endPrice);
+            })
+            function showRank(gname,currentPage,startPrice,endPrice) {
+                //发送ajax请求
+                $.get("game/showFavoriteRank",{gname:gname,currentPage:currentPage,startPrice:startPrice,endPrice:endPrice},function (pb) {
+                    //将pb对象展示在页面上
+                    //展示分页页码
+                    let lis="";
+                    let firstPage = '<li onclick="javascript:showRank(\''+gname+'\',1,\''+startPrice+'\',\''+endPrice+'\')"><a href="#">首页</a></li>';
+                    let beforeNum = pb.currentPage-1;
+                    if(beforeNum<1){
+                        beforeNum=1;
+                    }
+                    let beforePage = '<li onclick="javascript:showRank(\''+gname+'\','+beforeNum+',\''+startPrice+'\',\''+endPrice+'\')" class="threeword"><a href="#">上一页</a></li>';
+                    lis += firstPage;
+                    lis += beforePage;
+                    //分页展示的页码
+                    let begin;//开始位置
+                    let end;//结束
+                    //1.显示10个页码
+                    if(pb.totalPage<10){
+                        //总页码不够10页
+                        begin=1;
+                        end=pb.totalPage;
+                    }else{
+                        //超过10页
+                        begin=pb.currentPage-5;
+                        end=pb.currentPage+4;
+                        //如果前边不够5个后面补齐
+                        if(begin<1){
+                            begin=1;
+                            end=begin+9;
+                        }
+                        //后边不够4个前面补齐
+                        if(end>pb.totalPage){
+                            end=pb.totalPage;
+                            begin=end-9;
+                        }
+                    }
+
+                    for(let i=begin;i<=end;i++){
+                        let li;
+                        if(pb.currentPage==i){
+                            li ='<li class="curPage" onclick="javascript:showRank(\''+gname+'\','+i+',\''+startPrice+'\',\''+endPrice+'\')"><a href="#">'+i+'</a></li>';
+                        }else{
+                            li ='<li onclick="javascript:showRank(\''+gname+'\','+i+',\''+startPrice+'\',\''+endPrice+'\')"><a href="#">'+i+'</a></li>';
+                        }
+
+                        lis+=li;
+                    }
+                    let nextNum = pb.currentPage+1;
+                    if(nextNum>pb.totalPage){
+                        nextNum=pb.totalPage;
+                    }
+                    let nextPage = '<li onclick="javascript:showRank(\''+gname+'\','+nextNum+',\''+startPrice+'\',\''+endPrice+'\')" class="threeword"><a href="#">下一页</a></li>';
+                    let lastPage ='<li onclick="javascript:showRank(\''+gname+'\','+pb.totalPage+',\''+startPrice+'\',\''+endPrice+'\')" class="threeword"><a href="#">末页</a></li>';
+                    lis +=nextPage;
+                    lis +=lastPage;
+                    $("#pageNum").html(lis);
+                    //列表数据的展示
+                    let route_lis = "";
+                    for(let i=0;i<pb.list.length;i++){
+                        let game = pb.list[i];
+                        let rankNum =(pb.currentPage-1)*pb.pageSize+i;
+                        let li ='<li>\n' +
+                            '                        <span class="num one">'+(rankNum+1)+'</span>\n' +
+                            '                        <a href="game_detail.html?gid='+game.gid+'"><img src="'+game.gimage+'" alt=""></a>\n' +
+                            '                        <h4><a href="game_detail.html?gid='+game.gid+'">'+game.gameIntroduce+'</a></h4>\n' +
+                            '                        <p>\n' +
+                            '                            <b class="price">&yen;<span>'+game.price+'</span>起</b>\n' +
+                            '                            <span class="shouchang">已收藏'+game.count+'次</span>\n' +
+                            '                        </p>\n' +
+                            '                    </li>';
+                        route_lis+=li;
+                    }
+                    $("#rank").html(route_lis);
+                })
+            }
+        </script>
+    </head>
+    <body>
+    <!--引入头部-->
+    <div id="header"></div>
+        <div class="contant">
+            <div class="shaixuan">
+                <span>游戏名称</span>
+                <input type="text" id="gname">
+                <span>游戏价格</span>
+                <input type="text" id="startPrice">~<input type="text" id="endPrice">
+                <button id="search-btn-rank">搜索</button>
+            </div>
+            <div class="list clearfix">
+                <ul id="rank">
+                    <li>
+                        <span class="num one">1</span>
+                        <a href="game_detail.html"><img src="images/rank_Pic01.png" alt=""></a>
+                        <h4><a href="game_detail.html">传《使命召唤18》将采用与战区相同的IW8引擎打造将，采用传统的二战设定，而非架空的时间线..</a></h4>
+                        <p>
+                            <b class="price">&yen;<span>199</span>起</b>
+                            <span class="shouchang">已收藏222次</span>
+                        </p>
+                    </li>
+                    <li>
+                        <span class="num two">2</span>
+                         <a href="game_detail.html"><img src="images/rank_Pic01.png" alt=""></a>
+                        <h4><a href="game_detail.html">传《使命召唤18》将采用与战区相同的IW8引擎打造将，采用传统的二战设定，而非架空的时间线..</a></h4>
+                        <p>
+                            <b class="price">&yen;<span>199</span>起</b>
+                            <span class="shouchang">已收藏222次</span>
+                        </p>
+                    </li>
+                    <li>
+                        <span class="num">3</span>
+                         <a href="game_detail.html"><img src="images/rank_Pic01.png" alt=""></a>
+                        <h4><a href="game_detail.html">传《使命召唤18》将采用与战区相同的IW8引擎打造将，采用传统的二战设定，而非架空的时间线..</a></h4>
+                        <p>
+                            <b class="price">&yen;<span>199</span>起</b>
+                            <span class="shouchang">已收藏222次</span>
+                        </p>
+                    </li>
+                    <li>
+                        <span class="num">4</span>
+                         <a href="game_detail.html"><img src="images/rank_Pic01.png" alt=""></a>
+                        <h4><a href="game_detail.html">传《使命召唤18》将采用与战区相同的IW8引擎打造将，采用传统的二战设定，而非架空的时间线..</a></h4>
+                        <p>
+                            <b class="price">&yen;<span>199</span>起</b>
+                            <span class="shouchang">已收藏222次</span>
+                        </p>
+                    </li>
+                    <li>
+                        <span class="num">5</span>
+                         <a href="game_detail.html"><img src="images/rank_Pic01.png" alt=""></a>
+                        <h4><a href="game_detail.html">传《使命召唤18》将采用与战区相同的IW8引擎打造将，采用传统的二战设定，而非架空的时间线..</a></h4>
+                        <p>
+                            <b class="price">&yen;<span>199</span>起</b>
+                            <span class="shouchang">已收藏222次</span>
+                        </p>
+                    </li>
+                    <li>
+                        <span class="num">6</span>
+                         <a href="game_detail.html"><img src="images/rank_Pic01.png" alt=""></a>
+                        <h4><a href="game_detail.html">传《使命召唤18》将采用与战区相同的IW8引擎打造将，采用传统的二战设定，而非架空的时间线..</a></h4>
+                        <p>
+                            <b class="price">&yen;<span>199</span>起</b>
+                            <span class="shouchang">已收藏222次</span>
+                        </p>
+                    </li>
+                    <li>
+                        <span class="num">7</span>
+                         <a href="game_detail.html"><img src="images/rank_Pic01.png" alt=""></a>
+                        <h4><a href="game_detail.html">传《使命召唤18》将采用与战区相同的IW8引擎打造将，采用传统的二战设定，而非架空的时间线..</a></h4>
+                        <p>
+                            <b class="price">&yen;<span>199</span>起</b>
+                            <span class="shouchang">已收藏222次</span>
+                        </p>
+                    </li>
+                    <li>
+                        <span class="num">8</span>
+                        <a href="game_detail.html"><img src="images/rank_Pic01.png" alt=""></a>
+                        <h4><a href="game_detail.html">传《使命召唤18》将采用与战区相同的IW8引擎打造将，采用传统的二战设定，而非架空的时间线..</a></h4>
+                        <p>
+                            <b class="price">&yen;<span>199</span>起</b>
+                            <span class="shouchang">已收藏222次</span>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="pageNum">
+                <ul id="pageNum">
+                    <li><a href="">首页</a></li>
+                    <li class="threeword"><a href="#">上一页</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">6</a></li>
+                    <li><a href="#">7</a></li>
+                    <li><a href="#">8</a></li>
+                    <li><a href="#">9</a></li>
+                    <li><a href="#">10</a></li>
+                    <li class="threeword"><a href="javascript:;">下一页</a></li>
+                    <li class="threeword"><a href="javascript:;">末页</a></li>
+                </ul>
+            </div>
+        </div>
+    	
+         <!--导入底部-->
+   		 <div id="footer"></div>
+    <!--导入布局js，共享header和footer-->
+    <script type="text/javascript" src="js/include.js"></script>
+    </body>
+</html>

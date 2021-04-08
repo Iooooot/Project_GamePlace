@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>游戏大全-分类/搜索</title>
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" href="css/search.css">
+    <link rel="shortcut icon" href="images/icon.png" type="image/x-icon" />
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/getParameter.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            let cid = getParameter("cid");
+            let gname = getParameter("gname");
+            if(gname){
+                gname=window.decodeURIComponent(gname);
+            }
+            //当页面加载完成发送发送ajax请求,请求game/hotShow
+            show(cid);
+            //当页面加载完成发送发送ajax请求,请求game/pageQuery
+            load(cid,null,gname);
+        });
+        //展示热门推荐
+        function show(cid) {
+            //发送ajax请求,请求game/hotShow,传递cid
+            $.get("game/hotShow",{cid:cid},function (gameList) {
+                let lis="";
+                for(let i=0;i<gameList.length;i++){
+                    let game = gameList[i];
+                    let li = '<li>\n' +
+    '                            <div class="left"><img src="'+game.gimage+'" alt=""></div>\n' +
+    '                            <div class="right">\n' +
+    '                                <p>'+game.gameIntroduce+'</p>\n' +
+    '                                <p>预售价<span>&yen;<span>'+game.price+'</span>起</span>\n' +
+    '                                </p>\n' +
+    '                            </div>\n' +
+    '                        </li>';
+                    lis+=li;
+                }
+                $("#hot_show").html(lis);
+            })
+
+        }
+        function load(cid,currentPage,gname) {
+            //发送ajax请求,请求game/pageQuery,传递cid
+            $.get("game/pageQuery",{cid:cid,currentPage:currentPage,gname:gname},function(pb) {
+                //将pb对象展示在页面上
+                //分页条数据的展示
+                //展示总页数总记录数
+                $("#totalCount").html(pb.totalCount);
+                $("#totalPage").html(pb.totalPage);
+                //展示分页页码
+                let lis="";
+                let firstPage = '<li onclick="javascript:load('+cid+',1,\''+gname+'\')"><a href="#">首页</a></li>';
+                let beforeNum = pb.currentPage-1;
+                if(beforeNum<1){
+                    beforeNum=1;
+                }
+                let beforePage = '<li onclick="javascript:load('+cid+','+beforeNum+',\''+gname+'\')" class="threeword"><a href="#">上一页</a></li>';
+                lis += firstPage;
+                lis += beforePage;
+                //分页展示的页码
+                let begin;//开始位置
+                let end;//结束
+                //1.显示10个页码
+                if(pb.totalPage<10){
+                    //总页码不够10页
+                    begin=1;
+                    end=pb.totalPage;
+                }else{
+                    //超过10页
+                    begin=pb.currentPage-5;
+                    end=pb.currentPage+4;
+                    //如果前边不够5个后面补齐
+                    if(begin<1){
+                        begin=1;
+                        end=begin+9;
+                    }
+                    //后边不够4个前面补齐
+                    if(end>pb.totalPage){
+                        end=pb.totalPage;
+                        begin=end-9;
+                    }
+                }
+
+                for(let i=begin;i<=end;i++){
+                    let li;
+                    if(pb.currentPage==i){
+                        li ='<li class="curPage" onclick="javascript:load('+cid+','+i+',\''+gname+'\')"><a href="#">'+i+'</a></li>';
+                    }else{
+                        li ='<li onclick="javascript:load('+cid+','+i+',\''+gname+'\')"><a href="#">'+i+'</a></li>';
+                    }
+
+                    lis+=li;
+                }
+                let nextNum = pb.currentPage+1;
+                if(nextNum>pb.totalPage){
+                    nextNum=pb.totalPage;
+                }
+                let nextPage = '<li onclick="javascript:load('+cid+','+nextNum+',\''+gname+'\')" class="threeword"><a href="#">下一页</a></li>';
+                let lastPage ='<li onclick="javascript:load('+cid+','+pb.totalPage+',\''+gname+'\')" class="threeword"><a href="#">末页</a></li>';
+                lis +=nextPage;
+                lis +=lastPage;
+                $("#pageNum").html(lis);
+                //列表数据的展示
+                let game_lis = "";
+                for(let i=0;i<pb.list.length;i++){
+                    let game = pb.list[i];
+                    let li ='<li>\n' +
+                        '                            <div class="img"><img src="'+game.gimage+'" style="width: 299px;"></div>\n' +
+                        '                            <div class="text1">\n' +
+                        '                                <p>'+game.gname+'</p>\n' +
+                        '                                <br/>\n' +
+                        '                                <p>'+game.gameIntroduce+'</p>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="price">\n' +
+                        '                                <p class="price_num">\n' +
+                        '                                    <span>&yen;</span>\n' +
+                        '                                    <span>'+game.price+'</span>\n' +
+                        '                                    <span>起</span>\n' +
+                        '                                </p>\n' +
+                        '                                <p><a href="game_detail.html?gid='+game.gid+'">查看详情</a></p>\n' +
+                        '                            </div>\n' +
+                        '                        </li>';
+                    game_lis+=li;
+                }
+                $("#game").html(game_lis);
+            });
+        }
+    </script>
+</head>
+<body>
+<!--引入头部-->
+<div id="header"></div>
+    <div class="page_one">
+        <div class="contant">
+            <div class="crumbs">
+                <img src="images/search.png" alt="">
+                <p><a href="/">首页</a>><span>搜索结果</span></p>
+            </div>
+            <div class="xinxi clearfix">
+                <div class="left">
+                    <div class="header">
+                        <span>游戏信息</span>
+                        <span class="jg">价格</span>
+                    </div>
+                    <ul id="game">
+                        <li>
+                            <div class="img"><img src="images/search_01.png" alt=""></div>
+                            <div class="text1">
+                                <p>《漫威复联》首位黑人超级英雄黑豹出现 为瓦坎达而战</p>
+                                <br/>
+                                <p>二月游戏日，限时打8折哦，走过不要错过哦~还有多款热门3A大作等你来玩！</p>
+                            </div>
+                            <div class="price">
+                                <p class="price_num">
+                                    <span>&yen;</span>
+                                    <span>299</span>
+                                    <span>起</span>
+                                </p>
+                                <p><a href="game_detail.html">查看详情</a></p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img"><img src="images/search_01.png" alt=""></div>
+                            <div class="text1">
+                                <p>《黑暗之魂2》光影Mod公布最新截图 光影大幅改善</p>
+                                <br/>
+                                <p>二月游戏日，限时打8折哦，走过不要错过哦~还有多款热门3A大作等你来玩！</p>
+                            </div>
+                            <div class="price">
+                                <p class="price_num">
+                                    <span>&yen;</span>
+                                    <span>119</span>
+                                    <span>起</span>
+                                </p>
+                                <p><a href="game_detail.html">查看详情</a></p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img"><img src="images/search_01.png" alt=""></div>
+                            <div class="text1">
+                                <p>《鬼谷八荒》再次推出优化更新 加强逆天改命效果！/p>
+                                <br/>
+                                <p>二月游戏日，限时打8折哦，走过不要错过哦~还有多款热门3A大作等你来玩！</p>
+                            </div>
+                            <div class="price">
+                                <p class="price_num">
+                                    <span>&yen;</span>
+                                    <span>79</span>
+                                    <span>起</span>
+                                </p>
+                                <p><a href="game_detail.html">查看详情</a></p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img"><img src="images/search_01.png" alt=""></div>
+                            <div class="text1">
+                                <p>《秘密邻居》4月29日登陆PS4和iOS NS版今夏发售！</p>
+                                <br/>
+                                <p>二月游戏日，限时打8折哦，走过不要错过哦~还有多款热门3A大作等你来玩！</p>
+                            </div>
+                            <div class="price">
+                                <p class="price_num">
+                                    <span>&yen;</span>
+                                    <span>99</span>
+                                    <span>起</span>
+                                </p>
+                                <p><a href="game_detail.html">查看详情</a></p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img"><img src="images/search_01.png" alt=""></div>
+                            <div class="text1">
+                                <p>即时战略《我们是看守者》XSX/XB1版将发售！预告赏</p>
+                                <br/>
+                                <p>二月游戏日，限时打8折哦，走过不要错过哦~还有多款热门3A大作等你来玩！</p>
+                            </div>
+                            <div class="price">
+                                <p class="price_num">
+                                    <span>&yen;</span>
+                                    <span>199</span>
+                                    <span>起</span>
+                                </p>
+                                <p><a href="game_detail.html">查看详情</a></p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img"><img src="images/search_01.png" alt=""></div>
+                            <div class="text1">
+                                <p>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</p>
+                                <br/>
+                                <p>二月游戏日，限时打8折哦，走过不要错过哦~还有多款热门3A大作等你来玩！</p>
+                            </div>
+                            <div class="price">
+                                <p class="price_num">
+                                    <span>&yen;</span>
+                                    <span>399</span>
+                                    <span>起</span>
+                                </p>
+                                <p><a href="game_detail.html">查看详情</a></p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img"><img src="images/search_01.png" alt=""></div>
+                            <div class="text1">
+                                <p>超级任天堂世界整体采用VR设计 可以不断升级进化</p>
+                                <br/>
+                                <p>二月游戏日，限时打8折哦，走过不要错过哦~还有多款热门3A大作等你来玩！</p>
+                            </div>
+                            <div class="price">
+                                <p class="price_num">
+                                    <span>&yen;</span>
+                                    <span>139</span>
+                                    <span>起</span>
+                                </p>
+                                <p><a href="game_detail.html">查看详情</a></p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="img"><img src="images/search_01.png" alt=""></div>
+                            <div class="text1">
+                                <p>免费多人游戏《侠盗公司》月底登陆PS5 支持4K画面！</p>
+                                <br/>
+                                <p>二月游戏日，限时打8折哦，走过不要错过哦~还有多款热门3A大作等你来玩！</p>
+                            </div>
+                            <div class="price">
+                                <p class="price_num">
+                                    <span>&yen;</span>
+                                    <span>49</span>
+                                    <span>起</span>
+                                </p>
+                                <p><a href="game_detail.html">查看详情</a></p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="page_num_inf">
+                        <i></i> 共
+                        <span id="totalPage">12</span>页<span id="totalCount">132</span>条
+                    </div>
+                    <div class="pageNum">
+                        <ul id="pageNum">
+                            <li><a href="">首页</a></li>
+                            <li class="threeword"><a href="#">上一页</a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#">6</a></li>
+                            <li><a href="#">7</a></li>
+                            <li><a href="#">8</a></li>
+                            <li><a href="#">9</a></li>
+                            <li><a href="#">10</a></li>
+                            <li class="threeword"><a href="javascript:;">下一页</a></li>
+                            <li class="threeword"><a href="javascript:;">末页</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="top">
+                        <div class="hot">HOT</div>
+                        <span>热门推荐</span>
+                    </div>
+                    <ul id="hot_show">
+                        <li>
+                            <div class="left"><img src="images/search_02.png" alt=""></div>
+                            <div class="right">
+                                <p>动作冒险《死神之门》上架Steam发售！...</p>
+                                <p>预售价<span>&yen;<span>79</span>起</span>
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="left"><img src="images/search_02.png" alt=""></div>
+                            <div class="right">
+                                <p>动作冒险《死神之门》上架Steam发售！...</p>
+                                <p>预售价<span>&yen;<span>129</span>起</span>
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="left"><img src="images/search_02.png" alt=""></div>
+                            <div class="right">
+                                <p>动作冒险《死神之门》上架Steam发售！...</p>
+                                <p>预售价<span>&yen;<span>119</span>起</span>
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="left"><img src="images/search_02.png" alt=""></div>
+                            <div class="right">
+                                <p>动作冒险《死神之门》上架Steam发售！...</p>
+                                <p>预售价<span>&yen;<span>89</span>起</span>
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="left"><img src="images/search_02.png" alt=""></div>
+                            <div class="right">
+                                <p>动作冒险《死神之门》上架Steam发售！...</p>
+                                <p>预售价<span>&yen;<span>269</span>起</span>
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--引入头部-->
+    <div id="footer"></div>
+    <!--导入布局js，共享header和footer-->
+    <script type="text/javascript" src="js/include.js"></script>
+</body>
+
+</html>

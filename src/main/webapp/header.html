@@ -1,0 +1,78 @@
+<!-- 头部 start -->
+<script src="js/getParameter.js"></script>
+<script>
+    $(function () {
+        $.get("user/findOne",{},function (data) {
+            if(data!=null){
+                let msg = "欢迎回来  "+data.name;
+                $("#login_before").css("display","none");
+                $("#login_after").css("display","inline-block");
+                $("#span_username").html(msg);
+            }else{
+                $("#login_before").css("display","inline-block");
+                $("#login_after").css("display","none");
+            }
+        });
+        $.get("category/findAll",{},function (data) {
+            let lis='<li class="nav-active"><a href="index.html">首页</a></li>';
+            //遍历数据
+            for (let i = 0; i < data.length; i++) {
+                let li='<li><a href="game_list.html?cid='+data[i].cid+'">'+data[i].cname+'</a></li>';
+                lis+=li;
+            }
+            lis+='<li><a href="favoriterank.html">收藏排行榜</a></li>';
+            $("#category").html(lis);
+        });
+        //搜索框的数据提交
+        $("#search-btn").click(function () {
+            let gname = $("#search-input").val();
+            let cid = getParameter("cid");
+            location.href="http://localhost:8080/game_list.html?cid="+cid+"&gname="+gname;
+        })
+
+    })
+</script>
+    <header id="header">
+        <div class="top_banner">
+            <img src="images/top_banner.jpg" alt="">
+        </div>
+        <div class="shortcut">
+            <!-- 未登录状态  -->
+            <div class="login_out" id="login_before">
+                <a href="login.html">登录</a>
+                <a href="register.html">注册</a>
+            </div>
+            <!-- 登录状态  -->
+            <div class="login" style="display: none" id="login_after">
+                <span id="span_username"></span>
+                <a href="myfavorite.html" class="collection">我的收藏</a>
+                <a href="javascript:location.href='user/exit';">退出</a>
+            </div>
+        </div>
+        <div class="header_wrap">
+            <div class="topbar">
+                <div class="logo">
+                    <a href="/"><img src="images/logo.png" alt=""></a>
+                </div>
+                <div class="top_img">
+                    <img src="images/dian1.png">
+                    <img src="images/dian1.png">
+                    <img src="images/dian1.png">
+                    <img src="images/dian1.png">
+                    <img src="images/dian1.png">
+                    <img src="images/dian1.png">
+                </div>
+                <div class="search">
+                    <input name="" id="search-input" type="text" placeholder="请输入游戏名称" class="search_input" autocomplete="off">
+                    <a href="javascript:;" id="search-btn" class="search-button">搜索</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- 头部 end -->
+     <!-- 首页导航 -->
+    <div class="navitem">
+        <ul class="nav" id="category">
+        </ul>
+    </div>
+    

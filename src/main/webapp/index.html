@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>游民小窝</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="shortcut icon" href="images/icon.png" type="image/x-icon" />
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-3.3.1.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <!--导入布局js，共享header和footer-->
+    <script type="text/javascript" src="js/include.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<!--引入头部-->
+    <div id="header"></div>
+    <!-- banner start-->
+    <!-- 轮播图 -->
+    <section id="banner">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="2000">
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+            </ol>
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <img src="images/banner_1.png" alt="">
+                </div>
+                <div class="item">
+                    <img src="images/banner_2.png" alt="">
+                </div>
+                <div class="item">
+                    <img src="images/banner_3.png" alt="">
+                </div>
+            </div>
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+			    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			    <span class="sr-only">Previous</span>
+			  </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+			    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			    <span class="sr-only">Next</span>
+			  </a>
+        </div>
+    </section>
+    <!-- banner end-->
+    <!-- 游戏推荐 start-->
+    <section id="content">
+         <!-- 游戏精选start-->
+        <section class="game_jx">
+            <div class="jx_top">
+                <div class="jx_tit">
+                    <img src="images/icon_5.png" alt="">
+                    <span>游戏精选</span>
+                </div>
+                <!-- Nav tabs -->
+                <ul class="jx_tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <span><a href="#popularity" aria-controls="popularity" role="tab" data-toggle="tab">年度精选</a></span>
+
+                    </li>
+                    <li role="presentation">
+                        <span><a href="#newest" aria-controls="newest" role="tab" data-toggle="tab">每季精选</a></span>
+
+                    </li>
+                    <li role="presentation">
+                        <span><a href="#theme" aria-controls="theme" role="tab" data-toggle="tab">每月精选</a></span>
+
+                    </li>
+                </ul>
+            </div>
+            <div class="jx_content">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="popularity">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="game_detail.html?gid=24">
+                                    <img src="images/jingxuan_5.jpg" alt="">
+                                    <div class="has_border">
+                                        <h3>游戏名：《信长之野望：新生》</h3>
+                                        <h5>描述：3月28日在光荣特库摩40周年纪念直播中，官方发布信长系列第16作《信长之野望：新生》宣传片，目前游戏正在开发中，预计将在年内发售。官方表示游戏详情将在今后逐步公开。</h5>
+                                        <div class="price">游戏预价<em>￥</em><strong>129</strong></div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="game_detail.html?gid=19">
+                                    <img src="images/jingxuan_6.jpg" alt="">
+                                    <div class="has_border">
+                                        <h3>游戏名：《毁灭全人类 Destroy All Humans》</h3>
+                                        <h5>描述：重制版的《毁灭全人类》,游戏风格诙谐，背景设置在20世纪50年代。玩家将扮演一位名为Crypto-137的外星入侵者，可以伪装成人类，使用超能力和各种奇特的武器。重制版游戏将于2020年登陆PS4，Xbox One及PC平台。</h5>
+                                        <div class="price">游戏预价<em>￥</em><strong>89</strong></div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="game_detail.html?gid=1">
+                                    <img src="images/jingxuan_7.jpg" alt="">
+                                    <div class="has_border">
+                                        <h3>游戏名：《英灵神殿》</h3>
+                                        <h5>描述：MOD制作者“aC0C0NUT”近日发布了一个全新的《英灵神殿》的高清材质包，这个材质包重做了游戏中的255处贴图。如果你是一位追求画质的《英灵神殿》玩家，那么这个材质包绝对是必备之物。</h5>
+                                        <div class="price">游戏预价<em>￥</em><strong>299</strong></div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="game_detail.html?gid=2">
+                                    <img src="images/jingxuan_8.jpg" alt="">
+                                    <div class="has_border">
+                                        <h3>游戏名：《黑暗之魂3》</h3>
+                                        <h5>描述：《黑暗之魂3》是一款黑暗奇幻题材的第三人称硬核动作RPG游戏。这款作品是《黑暗之魂》系列的第三部正统作品，这款游戏由于其超高的难度和出色的游戏性，受到了玩家们的欢迎。</h5>
+                                        <div class="price">游戏预价<em>￥</em><strong>289</strong></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="newest">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="game_detail.html?gid=3">
+                                    <img src="images/jingxuan_9.jpg" alt="">
+                                    <div class="has_border">
+                                        <h3>游戏名：《怪猎崛起》</h3>
+                                        <h5>描述：日前卡普空旗下名作新篇《怪物猎人：崛起》正式发售，有玩家反映因为追加姿势包导致游戏崩溃无法启动，3月28日卡普空发布致歉公告。</h5>
+                                        <div class="price">游戏预价<em>￥</em><strong>119</strong></div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="game_detail.html?gid=4">
+                                    <img src="images/jingxuan_10.jpg" alt="">
+                                    <div class="has_border">
+                                        <h3>游戏名：《二次灭绝》</h3>
+                                        <h5>描述：合作FPS游戏《二次灭绝》几个月之前登陆了Steam抢先体验，近日官方宣布本作将于4月28日登陆PC和主机端的Xbox Game Pass</h5>
+                                        <div class="price">游戏预价<em>￥</em><strong>129</strong></div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="game_detail.html?gid=6">
+                                    <img src="images/jingxuan_11.jpg" alt="">
+                                    <div class="has_border">
+                                        <h3>游戏名：《刺客信条:英灵殿》</h3>
+                                        <h5>描述：育碧发布了一个热修复补丁，对《刺客信条：英灵殿》中可能会导致崩溃问题的部分内容进行了紧急移除。本作开发团队终于发布了最新升级档，解决了崩溃问题，并恢复了被移除的内容。</h5>
+                                        <div class="price">游戏预价<em>￥</em><strong>299</strong></div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="game_detail.html?gid=5">
+                                    <img src="images/jingxuan_12.jpg" alt="">
+                                    <div class="has_border">
+                                        <h3>游戏名：《对马岛之魂》</h3>
+                                        <h5>描述：去年大热的《对马岛之魂》官方近日宣布，该作将被改编成好莱坞真人电影，不少玩家认为《对马岛之鬼》“境井仁”扮演者其实可以出演真人电影《底特律：变人》中“康纳”扮演者Bryan Dechart也大家一样在推特上直接号召大家支持。</h5>
+                                        <div class="price">游戏预价<em>￥</em><strong>339</strong></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="theme">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="game_detail.html?gid=7">
+                                    <img src="images/jingxuan_13.jpg" alt="">
+                                    <div class="has_border">
+                                        <h3>游戏名：《古惑狼4：时机已到》</h3>
+                                        <h5>描述：目前，《古惑狼4：时机已到》现已登陆PC台服战网，需全程联网游玩，游戏支持4K，每秒帧数无上限，购买《古惑狼4》并完成游戏内第二个关卡的玩家，还可以免费获得Crash和Coco的骸骨造型。</h5>
+                                        <div class="price">游戏预价<em>￥</em><strong>295</strong></div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="game_detail.html?gid=8">
+                                    <img src="images/jingxuan_14.jpg" alt="">
+                                    <div class="has_border">
+                                        <h3>游戏名：《战地6》</h3>
+                                        <h5>描述：据舅舅党爆料，EA和DICE最近为《战地6》发布了一个问卷调查。显然EA正在测量玩家对一些功能的兴趣，有可能会被加入到游戏中。</h5>
+                                        <div class="price">游戏预价<em>￥</em><strong>339</strong></div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="game_detail.html?gid=9">
+                                    <img src="images/jingxuan_15.jpg" alt="">
+                                    <div class="has_border">
+                                        <h3>游戏名：《赛博朋克2077》</h3>
+                                        <h5>描述：国外网友“PricklyAssassin”发现，《赛博朋克》Epic版本服务器容量最近从100GB扩展到了500GB，一般来说这种事预示着游戏未来几个月会推出新内容。此外它的“附加内容”区域也发生了改变</h5>
+                                        <div class="price">游戏预价<em>￥</em><strong>399</strong></div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="game_detail.html?gid=10">
+                                    <img src="images/jingxuan_16.jpg" alt="">
+                                    <div class="has_border">
+                                        <h3>游戏名：《Moonglow Bay》</h3>
+                                        <h5>描述：Bunnyhug开发、发行的钓鱼RPG新作《Moonglow Bay》已经上架Steam，并预定将于2021年内发售，该作将登陆Xbox Series/One和PC（游戏将加入XGP），该作支持简中。</h5>
+                                        <div class="price">游戏预价<em>￥</em><strong>99</strong></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- 游戏精选end-->
+        <!-- 动作类游戏 start-->
+        <section class="game_jx">
+            <div class="jx_top">
+                <div class="jx_tit">
+                    <img src="images/icon_6.png" alt="">
+                    <span>动作类游戏</span>
+                </div>
+            </div>
+            <div class="heima_gn">
+                <div class="guonei_l">
+                    <img src="images/ac1.png" alt="">
+                </div>
+                <div class="guone_r">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="game_detail.html?gid=17">
+								<img src="images/index_AcPic01.png" alt="">
+								<div class="has_border">
+									<h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+									<div class="price">官方定价<em>￥</em><strong>129</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="game_detail.html?gid=18">
+								<img src="images/index_AcPic02.png" alt="">
+								<div class="has_border">
+									<h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+									<div class="price">官方定价<em>￥</em><strong>189</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="game_detail.html?gid=20">
+								<img src="images/index_AcPic03.png" alt="">
+								<div class="has_border">
+									<h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+									<div class="price">官方定价<em>￥</em><strong>99</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="game_detail.html?gid=21">
+								<img src="images/index_AcPic04.png" alt="">
+								<div class="has_border">
+									<h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+									<div class="price">官方定价<em>￥</em><strong>89</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="game_detail.html?gid=22">
+									<img src="images/index_AcPic05.png" alt="">
+								<div class="has_border">
+									<h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+									<div class="price">官方定价<em>￥</em><strong>239</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="game_detail.html?gid=23">
+								<img src="images/index_AcPic06.png" alt="">
+								<div class="has_border">
+									<h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+									<div class="price">官方定价<em>￥</em><strong>269</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- 动作类游戏 end-->
+        <!-- 运动类游戏 start-->
+        <section class="game_jx">
+            <div class="jx_top">
+                <div class="jx_tit">
+                    <img src="images/icon_7.png" alt="">
+                    <span>运动类游戏</span>
+                </div>
+            </div>
+            <div class="heima_gn">
+                <div class="guonei_l">
+                    <img src="images/ac2.png" alt="">
+                </div>
+                <div class="guone_r">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="game_detail.html?gid=11">
+								<img src="images/index_DrPic01.png" alt="">
+								<div class="has_border">
+									<h3>《极限竞速》(Forza)系列游戏包括了《极限竞速》系列和《极限竞速:地平线》系列,提供另人惊叹的图形和无与伦比的模拟驾驶体验,探索着丰富多彩的开放世界</h3>
+									<div class="price">网付价<em>￥</em><strong>169</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="game_detail.html?gid=12">
+								<img src="images/index_DrPic02.png" alt="">
+								<div class="has_border">
+									<h3>《极限竞速》(Forza)系列游戏包括了《极限竞速》系列和《极限竞速:地平线》系列,提供另人惊叹的图形和无与伦比的模拟驾驶体验,探索着丰富多彩的开放世界</h3>
+									<div class="price">网付价<em>￥</em><strong>289</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="game_detail.html?gid=13">
+								<img src="images/index_DrPic03.png" alt="">
+								<div class="has_border">
+									<h3>《极限竞速》(Forza)系列游戏包括了《极限竞速》系列和《极限竞速:地平线》系列,提供另人惊叹的图形和无与伦比的模拟驾驶体验,探索着丰富多彩的开放世界</h3>
+									<div class="price">网付价<em>￥</em><strong>339</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="game_detail.html?gid=14">
+								<img src="images/index_DrPic04.png" alt="">
+								<div class="has_border">
+									<h3>《极限竞速》(Forza)系列游戏包括了《极限竞速》系列和《极限竞速:地平线》系列,提供另人惊叹的图形和无与伦比的模拟驾驶体验,探索着丰富多彩的开放世界</h3>
+									<div class="price">网付价<em>￥</em><strong>449</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="game_detail.html?gid=15">
+									<img src="images/index_DrPic05.png" alt="">
+								<div class="has_border">
+									<h3>《极限竞速》(Forza)系列游戏包括了《极限竞速》系列和《极限竞速:地平线》系列,提供另人惊叹的图形和无与伦比的模拟驾驶体验,探索着丰富多彩的开放世界</h3>
+									<div class="price">网付价<em>￥</em><strong>219</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="game_detail.html?gid=16">
+								<img src="images/index_DrPic06.png" alt="">
+								<div class="has_border">
+									<h3>《极限竞速》(Forza)系列游戏包括了《极限竞速》系列和《极限竞速:地平线》系列,提供另人惊叹的图形和无与伦比的模拟驾驶体验,探索着丰富多彩的开放世界</h3>
+									<div class="price">网付价<em>￥</em><strong>69</strong><em>起</em></div>
+								</div>
+							</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- 运动类游戏 end-->
+    </section>
+    <!-- 游戏推荐 end-->
+   <!--导入底部-->
+    <div id="footer"></div>
+
+</body>
+</html>

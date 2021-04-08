@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>游民小窝-我的收藏</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/common.css">
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="shortcut icon" href="images/icon.png" type="image/x-icon" />
+       <style>
+           .tab-content .row>div {
+            margin-top: 16px;
+           } 
+           .tab-content {
+            margin-bottom: 36px;
+           }
+       </style>
+<!--         -->
+       <script src="js/jquery-3.3.1.js"></script>
+        <script>
+            $(function () {
+                //1.判断是否登录
+                $.get("user/findOne",{},function (user) {
+                    if(user){
+                        //已经登录
+                        //发送ajax请求,请求route/showFavorite
+                        show(null);
+                    }else{
+                        alert("您尚未登录,请登录");
+                        window.open("login.html");
+                    }
+                })
+
+            })
+            function show(currentPage) {
+                $.get("game/showFavorite",{currentPage:currentPage},function (pb) {
+                    //将pb对象展示在页面上
+                    //分页条数据的展示
+                    let lis="";
+                    lis+='<li onclick="javascript:show(1)"><a href="#" >首页</a></li>';
+                    let beforeNum = pb.currentPage-1;
+                    if(beforeNum<1){
+                        beforeNum=1;
+                    }
+                    lis+='<li class="threeword" onclick="javascript:show('+beforeNum+')"><a href="#">上一页</a></li>';
+                    //分页展示的页码
+                    let begin;//开始位置
+                    let end;//结束
+                    //1.显示10个页码
+                    if(pb.totalPage<10){
+                        //总页码不够10页
+                        begin=1;
+                        end=pb.totalPage;
+                    }else{
+                        //超过10页
+                        begin=pb.currentPage-5;
+                        end=pb.currentPage+4;
+                        //如果前边不够5个后面补齐
+                        if(begin<1){
+                            begin=1;
+                            end=begin+9;
+                        }
+                        //后边不够4个前面补齐
+                        if(end>pb.totalPage){
+                            end=pb.totalPage;
+                            begin=end-9;
+                        }
+                    }
+                    for(let i=begin;i<=end;i++){
+                        let li;
+                        if(pb.currentPage==i){
+                            li ='<li class="curPage" onclick="javascript:show('+i+')"><a href="#">'+i+'</a></li>';
+                        }else{
+                            li ='<li onclick="javascript:show('+i+')"><a href="#">'+i+'</a></li>';
+                        }
+                        lis+=li;
+                    }
+                    let nextNum = pb.currentPage+1;
+                    if(nextNum>pb.totalPage){
+                        nextNum=pb.totalPage;
+                    }
+                    lis+='<li class="threeword" onclick="javascript:show('+nextNum+')"><a href="#">下一页</a></li>';
+                    lis+='<li class="threeword" onclick="javascript:show('+pb.totalPage+')"><a href="#">末页</a></li>';
+                    $("#pageNum").html(lis);
+                    //分页数据的展示
+                    let route_lis = "";
+                    for(let i=0;i<pb.list.length;i++){
+                        let game = pb.list[i];
+                        let li ='<div class="col-md-3">\n' +
+                            '                                    <a href="game_detail.html?gid='+game.gid+'">\n' +
+                            '                                        <img src="'+game.gimage+'" alt="">\n' +
+                            '                                        <div class="has_border">\n' +
+                            '                                            <h3>'+game.gameIntroduce+'</h3>\n' +
+                            '                                            <div class="price">官方预售价<em>￥</em><strong>'+game.price+'</strong><em>起</em></div>\n' +
+                            '                                        </div>\n' +
+                            '                                    </a>\n' +
+                            '                                </div>';
+                        route_lis+=li;
+                    }
+                    $("#myFavorite").html(route_lis);
+                })
+            }
+        </script>
+    </head>
+    <body>
+    <!--引入头部-->
+    <div id="header"></div>
+         <!-- 排行榜 start-->
+        <section id="content">            
+            <section class="hemai_jx">
+                <div class="jx_top">
+                    <div class="jx_tit">
+                        <img src="images/icon_5.jpg" alt="">
+                        <span>我的收藏</span>
+                    </div>                    
+                </div>
+                <div class="jx_content">
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">
+                            <div class="row" id="myFavorite">
+                                <div class="col-md-3">
+                                    <a href="game_detail.html">
+                                        <img src="images/collection_pic.png" alt="">
+                                        <div class="has_border">
+                                            <h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+                                            <div class="price">官方预售价<em>￥</em><strong>99</strong><em>起</em></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="game_detail.html">
+                                        <img src="images/collection_pic.png" alt="">
+                                        <div class="has_border">
+                                            <h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+                                            <div class="price">官方预售价<em>￥</em><strong>99</strong><em>起</em></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="game_detail.html">
+                                        <img src="images/collection_pic.png" alt="">
+                                        <div class="has_border">
+                                            <h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+                                            <div class="price">官方预售价<em>￥</em><strong>99</strong><em>起</em></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="game_detail.html">
+                                        <img src="images/collection_pic.png" alt="">
+                                        <div class="has_border">
+                                            <h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+                                            <div class="price">官方预售价<em>￥</em><strong>99</strong><em>起</em></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="game_detail.html">
+                                        <img src="images/collection_pic.png" alt="">
+                                        <div class="has_border">
+                                            <h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+                                            <div class="price">官方预售价<em>￥</em><strong>99</strong><em>起</em></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="game_detail.html">
+                                        <img src="images/collection_pic.png" alt="">
+                                        <div class="has_border">
+                                            <h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+                                            <div class="price">官方预售价<em>￥</em><strong>99</strong><em>起</em></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="game_detail.html">
+                                        <img src="images/collection_pic.png" alt="">
+                                        <div class="has_border">
+                                            <h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+                                            <div class="price">官方预售价<em>￥</em><strong>99</strong><em>起</em></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="game_detail.html">
+                                        <img src="images/collection_pic.png" alt="">
+                                        <div class="has_border">
+                                            <h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+                                            <div class="price">官方预售价<em>￥</em><strong>99</strong><em>起</em></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                 <div class="col-md-3">
+                                    <a href="game_detail.html">
+                                        <img src="images/collection_pic.png" alt="">
+                                        <div class="has_border">
+                                            <h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+                                            <div class="price">官方预售价<em>￥</em><strong>99</strong><em>起</em></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="game_detail.html">
+                                        <img src="images/collection_pic.png" alt="">
+                                        <div class="has_border">
+                                            <h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+                                            <div class="price">官方预售价<em>￥</em><strong>99</strong><em>起</em></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="game_detail.html">
+                                        <img src="images/collection_pic.png" alt="">
+                                        <div class="has_border">
+                                            <h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+                                            <div class="price">官方预售价<em>￥</em><strong>99</strong><em>起</em></div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="jroute_detail.html">
+                                        <img src="images/collection_pic.png" alt="">
+                                        <div class="has_border">
+                                            <h3>《使命召唤》是经典FPS系列的作品，该系列作品的特色在于给予玩家混乱、紧张而又真实的二战体验。</h3>
+                                            <div class="price">官方预售价<em>￥</em><strong>99</strong><em>起</em></div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>                       
+                    </div>
+                </div>
+                <div class="pageNum">
+                    <ul id="pageNum">
+                        <li><a href="">首页</a></li>
+                        <li class="threeword"><a href="#">上一页</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">6</a></li>
+                        <li><a href="#">7</a></li>
+                        <li><a href="#">8</a></li>
+                        <li><a href="#">9</a></li>
+                        <li><a href="#">10</a></li>
+                        <li class="threeword"><a href="javascript:;">下一页</a></li>
+                        <li class="threeword"><a href="javascript:;">末页</a></li>
+                    </ul>
+                </div>
+            </section>                      
+        </section>
+        <!-- 排行榜 end-->
+    	
+         <!--引入尾部-->
+    	<div id="footer"></div>
+        <!--导入布局js，共享header和footer-->
+        <script type="text/javascript" src="js/include.js"></script>
+    </body>
+</html>
